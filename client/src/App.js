@@ -93,19 +93,21 @@ function App() {
   const [error, setError] = useState("");
   const [studentCount, setStudentCount] = useState(0);
 
-  // useEffect(() => {
-  //   const fetchStudentCount = async () => {
-  //     try {
-  //       const { data } = await axios.get(
-  //         "http://localhost:5000/api/studentCount"
-  //       );
-  //       setStudentCount(data.length);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchStudentCount();
-  // }, []);
+  const [redMessage, setRedMessage] = useState("");
+
+  useEffect(() => {
+    const fetchStudentCount = async () => {
+      try {
+        const { data } = await axios.get(
+          "http://localhost:5000/api/studentCount"
+        );
+        setStudentCount(data.length);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchStudentCount();
+  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -115,6 +117,13 @@ function App() {
   const handleClick = async (event) => {
     event.preventDefault();
     const { rollNo, name } = student;
+
+    if(rollNo === "" || name === ""){
+      setRedMessage("Roll No. or Name can't be empty !!");
+      return;
+    }
+
+    
 
     const config = {
       headers: {
@@ -129,19 +138,23 @@ function App() {
         config
       );
       console.log(data);
-
+      const mesg = data.message;
+      const time = data.time;
+      
       setStudent({ rollNo: "", name: "" });
-
       const { data: studentCount } = await axios.get(
         "http://localhost:5000/api/studentCount"
       );
       setStudentCount(studentCount.length);
+      setRedMessage(() => {
+        return `${mesg} ${time!=null ? " at "+ time : ""}`;
+      });
+      setTimeout(() => {
+        setRedMessage("");
+      }, 5000);
     } catch (error) {
-      // setError(error);
-      // setTimeout(() => {
-      //   setError("");
-      // }, 5000);
       console.log(error);
+      setRedMessage("Please Enter Valid Roll No. and Name");
     }
   };
 
@@ -173,8 +186,8 @@ function App() {
           />
         </Flex>
         <SubmitButton onClick={handleClick}>Submit</SubmitButton>
-        <CheckTime>Check Time</CheckTime>
-        {error && <span>{error}</span>}
+        <CheckTime>{redMessage}</CheckTime>
+        {/* {error && <span>{error}</span>} */}
       </FlexBody>
     </Background>
   );
