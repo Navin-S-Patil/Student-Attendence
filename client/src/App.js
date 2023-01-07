@@ -16,6 +16,17 @@ const Flex = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
+  /* @media screen {
+    @media (max-width: 600px) {
+      flex-direction: column;
+       
+  } */
+
+  @media screen and (max-width: 700px) {
+    flex-direction: column;
+    align-items: center;
+  }
+
 `;
 
 //logo
@@ -26,12 +37,15 @@ const Logo = styled.img`
 `;
 
 const StudentCount = styled.div`
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   color: #ffffff;
   text-align: center;
   display: inline;
   padding: 1.5rem;
   font-family: "Inter", sans-serif;
+  @media screen and (max-width: 700px) {
+    padding: 1rem;
+  }
 `;
 
 const FlexBody = styled.div`
@@ -46,9 +60,12 @@ const WelcomeMessage = styled.h1`
   color: #ffffff;
   text-align: center;
   display: inline;
-  padding: 1.5rem;
+  padding: 1rem;
   font-family: "Handlee", "cursive";
-  margin: 0.5rem;
+  margin: 0.4rem;
+  @media screen and (max-width: 700px) {
+    padding: 0.5rem;
+  }
 `;
 
 const Inputroll = styled.input`
@@ -60,7 +77,7 @@ const Inputroll = styled.input`
   font-family: "Irish Grover", "cursive";
   border: none;
   border-radius: 1.2rem;
-  margin: 0rem 1rem;
+  margin: 1rem 1rem;
   display: inline;
   cursor: pointer;
 `;
@@ -187,7 +204,6 @@ function App() {
         </Flex>
         <SubmitButton onClick={handleClick}>Submit</SubmitButton>
         <CheckTime>{redMessage}</CheckTime>
-        {/* {error && <span>{error}</span>} */}
       </FlexBody>
     </Background>
   );
